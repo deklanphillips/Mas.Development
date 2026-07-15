@@ -248,6 +248,34 @@
   .step h3 { text-transform: uppercase; letter-spacing: .08em; font-size: 1.05rem; margin-bottom: 8px; font-weight: 700; }
   .step p { color: var(--grey); font-size: .95rem; }
 
+  /* ---------- BOOKING FORM ---------- */
+  #book {
+    background:
+      radial-gradient(ellipse at 85% 0%, rgba(29,63,216,.16), transparent 55%),
+      var(--black);
+  }
+  .form-frame {
+    background: var(--white);
+    border: 3px solid var(--blue);
+    box-shadow: 0 18px 50px rgba(29,63,216,.28);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 8px;
+  }
+  .form-frame iframe {
+    display: block;
+    width: 100%;
+    height: 1150px;
+    border: 0;
+    background: var(--white);
+  }
+  @media (max-width: 640px) { .form-frame iframe { height: 1350px; } }
+  .form-fallback {
+    text-align: center; margin-top: 18px; color: var(--grey); font-size: .95rem;
+  }
+  .form-fallback a { color: var(--blue-bright); font-weight: 600; }
+  .form-fallback a:hover { text-decoration: underline; }
+
   /* ---------- CTA ---------- */
   .cta {
     text-align: center;
@@ -288,7 +316,7 @@
       <a href="#why">Why MAS</a>
       <a href="#pricing">Pricing</a>
       <a href="#how">How It Works</a>
-      <a class="btn" href="https://ig.me/m/mas.development" target="_blank" rel="noopener"><span>Book Now</span></a>
+      <a class="btn" href="#book"><span>Book Now</span></a>
     </div>
   </nav>
 </header>
@@ -303,7 +331,7 @@
     <h1>Train More.<br><span class="blue">Save More.</span></h1>
     <div class="hero-sub">More effort. More growth. <span class="blue">More results.</span></div>
     <div class="hero-ctas">
-      <a class="btn" href="https://ig.me/m/mas.development" target="_blank" rel="noopener"><span>DM to Book Your Spot</span></a>
+      <a class="btn" href="#book"><span>Book Your Spot</span></a>
       <a class="btn ghost" href="#pricing"><span>See Pricing</span></a>
     </div>
   </div>
@@ -402,7 +430,7 @@
       All packages are 1-on-1 personal training, unless a group session is requested. 🤩
     </p>
     <div class="pricing-cta">
-      <a class="btn" href="https://ig.me/m/mas.development" target="_blank" rel="noopener"><span>DM to Book Your Spot Today</span></a>
+      <a class="btn" href="#book"><span>Book Your Spot Today</span></a>
     </div>
   </div>
 </section>
@@ -414,12 +442,12 @@
     </div>
     <div class="steps">
       <div class="step">
-        <h3>DM Us on Instagram</h3>
-        <p>Send a message to <a class="ig" href="https://www.instagram.com/mas.development/" target="_blank" rel="noopener" style="color:var(--blue-bright);font-weight:600;">@mas.development</a> with the package you want and your availability.</p>
+        <h3>Sign Up Below</h3>
+        <p>Fill out the quick <a href="#book" style="color:var(--blue-bright);font-weight:600;">booking form</a> — or DM <a href="https://www.instagram.com/mas.development/" target="_blank" rel="noopener" style="color:var(--blue-bright);font-weight:600;">@mas.development</a> on Instagram if you prefer.</p>
       </div>
       <div class="step">
         <h3>Lock In Your Sessions</h3>
-        <p>We'll schedule your sessions around you — 1-on-1 by default, or bring teammates for a group session.</p>
+        <p>We'll confirm your spot and schedule sessions around you — 1-on-1 by default, or bring teammates for a group session.</p>
       </div>
       <div class="step">
         <h3>Train &amp; Level Up</h3>
@@ -429,9 +457,27 @@
   </div>
 </section>
 
+<section id="book">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Book Your <span class="blue">Spot</span></h2>
+      <p>Fill out the form below and we'll get back to you to lock in your sessions. Limited spots available!</p>
+    </div>
+    <div class="form-frame">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSdmImvTxEUg5101nGTwP691UJ4nnneRPzVhapApd8zJl94_aA/viewform?embedded=true"
+        title="MAS Soccer Development booking form"
+        loading="lazy">
+        Loading…
+      </iframe>
+    </div>
+    <p class="form-fallback">Form not loading? <a href="https://docs.google.com/forms/d/e/1FAIpQLSdmImvTxEUg5101nGTwP691UJ4nnneRPzVhapApd8zJl94_aA/viewform" target="_blank" rel="noopener">Open the booking form in a new tab</a>.</p>
+  </div>
+</section>
+
 <section class="cta">
   <div class="wrap">
-    <h2>DM to book your spot today!</h2>
+    <h2>Prefer to DM? Book your spot today!</h2>
     <span class="limited">Limited spots available</span><br>
     <a class="btn" href="https://ig.me/m/mas.development" target="_blank" rel="noopener"><span>Message @mas.development</span></a>
   </div>
