@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAS Soccer Development — Booking Demo (Preview)</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #1d3fd8;
+    --blue-bright: #2e55ff;
+    --black: #0a0a0c;
+    --black-2: #121216;
+    --white: #ffffff;
+    --grey: #b6b8c2;
+    --display: 'Archivo Black', 'Arial Black', sans-serif;
+    --body: 'Oswald', 'Arial Narrow', Arial, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--black); color: var(--white);
+    font-family: var(--body); font-size: 18px; line-height: 1.55;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 22px; }
+
+  .demo-banner {
+    background: #e6b800; color: #111;
+    text-align: center; padding: 10px 16px;
+    font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: .85rem;
+  }
+
+  section { padding: 70px 0 90px; }
+  .sec-head { text-align: center; margin-bottom: 34px; }
+  .sec-head h2 {
+    font-family: var(--display);
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    text-transform: uppercase; line-height: 1.05;
+  }
+  .sec-head h2 .blue { color: var(--blue-bright); }
+  .sec-head p { margin-top: 14px; color: var(--grey); max-width: 560px; margin-left: auto; margin-right: auto; }
+
+  /* mode toggle */
+  .mode {
+    display: flex; justify-content: center; gap: 0; margin-bottom: 40px; flex-wrap: wrap;
+  }
+  .mode button {
+    font-family: var(--body); font-size: .9rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: var(--grey); background: var(--black-2);
+    border: 1px solid #2c2c36; padding: 12px 22px; cursor: pointer;
+    transition: .2s;
+  }
+  .mode button.active {
+    background: var(--blue); color: var(--white); border-color: var(--blue-bright);
+  }
+  .mode-note { text-align: center; color: var(--grey); font-size: .9rem; margin: -26px 0 36px; }
+  .mode-note strong { color: var(--white); }
+
+  /* scheduler */
+  .scheduler {
+    background: var(--black-2);
+    border: 1px solid #26262e;
+    border-top: 4px solid var(--blue);
+    padding: 30px;
+  }
+  @media (max-width: 560px) { .scheduler { padding: 20px 14px; } }
+  .days {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+  }
+  @media (max-width: 700px) { .days { grid-template-columns: repeat(2, 1fr); } .day:last-child{grid-column: span 2;} }
+  .day h4 {
+    text-align: center; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; font-size: .85rem; margin-bottom: 4px;
+  }
+  .day .date { text-align: center; color: var(--grey); font-size: .75rem; letter-spacing: .08em; margin-bottom: 12px; }
+  .slots { display: flex; flex-direction: column; gap: 8px; }
+  .slot {
+    font-family: var(--body); font-size: .82rem; font-weight: 600; letter-spacing: .03em;
+    color: var(--white); background: var(--black);
+    border: 1px solid #2c2c36;
+    padding: 9px 6px; text-align: center; cursor: pointer;
+    transition: .15s;
+  }
+  .slot:hover { border-color: var(--blue-bright); background: rgba(46,85,255,.12); }
+  .slot.selected { background: var(--blue); border-color: var(--blue-bright); box-shadow: 0 0 12px rgba(46,85,255,.45); }
+  .slot.taken {
+    color: #55565f; background: transparent; border-style: dashed;
+    text-decoration: line-through; cursor: not-allowed; pointer-events: none;
+  }
+  .slot.pending {
+    color: #e6b800; border-color: #e6b800; cursor: default; pointer-events: none;
+    text-decoration: none;
+  }
+  .legend {
+    display: flex; gap: 22px; justify-content: center; flex-wrap: wrap;
+    margin-top: 24px; font-size: .78rem; color: var(--grey);
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+  .legend span::before {
+    content: ""; display: inline-block; width: 11px; height: 11px; margin-right: 7px;
+    vertical-align: -1px; border: 1px solid #2c2c36; background: var(--black);
+  }
+  .legend .l-open::before { border-color: var(--blue-bright); }
+  .legend .l-taken::before { border-style: dashed; background: transparent; }
+  .legend .l-pending::before { border-color: #e6b800; }
+
+  /* booking panel */
+  .panel {
+    display: none;
+    margin-top: 28px;
+    background: var(--black);
+    border: 1px solid var(--blue);
+    padding: 26px;
+  }
+  .panel.show { display: block; }
+  .panel h3 {
+    font-family: var(--display); text-transform: uppercase; font-size: 1.15rem; margin-bottom: 4px;
+  }
+  .panel .chosen { color: var(--blue-bright); font-weight: 600; margin-bottom: 18px; }
+  .panel .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+  @media (max-width: 600px) { .panel .fields { grid-template-columns: 1fr; } }
+  .panel input {
+    width: 100%; background: var(--black-2); border: 1px solid #2c2c36;
+    color: var(--white); font-family: var(--body); font-size: .95rem; padding: 12px 13px;
+  }
+  .panel input:focus { outline: none; border-color: var(--blue-bright); }
+  .btn {
+    display: inline-block; background: var(--blue); color: var(--white);
+    font-family: var(--body); font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; font-size: .9rem; padding: 13px 28px;
+    border: none; cursor: pointer; transform: skewX(-8deg); transition: .2s;
+  }
+  .btn span { display: inline-block; transform: skewX(8deg); }
+  .btn:hover { background: var(--blue-bright); }
+
+  /* result */
+  .result {
+    display: none; margin-top: 28px; text-align: center;
+    border: 1px solid #26262e; padding: 34px 20px; background: var(--black);
+  }
+  .result.show { display: block; }
+  .result .big { font-size: 2.6rem; }
+  .result h3 { font-family: var(--display); text-transform: uppercase; font-size: 1.3rem; margin: 10px 0 8px; }
+  .result p { color: var(--grey); max-width: 460px; margin: 0 auto; }
+  .result.approved h3 { color: #4cd97b; }
+  .result.pending h3 { color: #e6b800; }
+  .result .again { margin-top: 18px; }
+  .result .again a { color: var(--blue-bright); font-weight: 600; cursor: pointer; }
+
+  .foot-note {
+    margin-top: 40px; text-align: center; color: var(--grey); font-size: .88rem;
+    max-width: 640px; margin-left: auto; margin-right: auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-banner">Demo preview — sample availability, nothing here books a real session</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Book a <span class="blue">Session</span></h2>
+      <p>Pick an open time slot below. Slots disappear as they're booked — what you see is what's actually available.</p>
+    </div>
+
+    <div class="mode">
+      <button id="modeInstant" class="active">⚡ Instant Booking</button>
+      <button id="modeApprove">✅ Approve-First</button>
+    </div>
+    <p class="mode-note" id="modeNote"><strong>Instant Booking</strong> (Google Calendar): the slot is locked in immediately and lands on Coach Johan's calendar.</p>
+
+    <div class="scheduler">
+      <div class="days" id="days"></div>
+      <div class="legend">
+        <span class="l-open">Open</span>
+        <span class="l-taken">Booked</span>
+        <span class="l-pending">Awaiting approval</span>
+      </div>
+
+      <div class="panel" id="panel">
+        <h3>Confirm Your Slot</h3>
+        <div class="chosen" id="chosen"></div>
+        <div class="fields">
+          <input type="text" placeholder="Parent/Guardian Name">
+          <input type="text" placeholder="Player Name">
+          <input type="tel" placeholder="Phone Number">
+          <input type="text" placeholder="Player Age">
+        </div>
+        <button class="btn" id="bookBtn"><span>Book This Slot</span></button>
+      </div>
+
+      <div class="result" id="result">
+        <div class="big" id="resultIcon"></div>
+        <h3 id="resultTitle"></h3>
+        <p id="resultText"></p>
+        <p class="again"><a id="again">← Back to the schedule</a></p>
+      </div>
+    </div>
+
+    <p class="foot-note">
+      This preview is built with sample data to show the flow. The real version uses Coach Johan's actual
+      Google Calendar availability — busy times never show up, and booked slots vanish for everyone instantly.
+    </p>
+  </div>
+</section>
+
+<script>
+(function () {
+  var SLOTS = ['7:00 AM', '8:10 AM', '9:20 AM', '10:30 AM', '11:40 AM', 'Evening'];
+  var daysEl = document.getElementById('days');
+  var panel = document.getElementById('panel');
+  var chosen = document.getElementById('chosen');
+  var result = document.getElementById('result');
+  var bookBtn = document.getElementById('bookBtn');
+  var approveMode = false;
+  var selected = null;
+
+  // next 5 weekdays
+  var d = new Date(); var days = [];
+  while (days.length < 5) {
+    d.setDate(d.getDate() + 1);
+    if (d.getDay() >= 1 && d.getDay() <= 5) days.push(new Date(d));
+  }
+  var fmtDay = function (dt) { return dt.toLocaleDateString('en-US', { weekday: 'long' }); };
+  var fmtDate = function (dt) { return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); };
+
+  // deterministic-ish sample availability
+  days.forEach(function (dt, di) {
+    var col = document.createElement('div');
+    col.className = 'day';
+    col.innerHTML = '<h4>' + fmtDay(dt) + '</h4><div class="date">' + fmtDate(dt) + '</div>';
+    var list = document.createElement('div');
+    list.className = 'slots';
+    SLOTS.forEach(function (s, si) {
+      var el = document.createElement('div');
+      el.className = 'slot';
+      el.textContent = s;
+      if ((di * 7 + si * 3) % 5 === 0 || (di === 2 && si < 2)) el.classList.add('taken');
+      el.addEventListener('click', function () {
+        var prev = daysEl.querySelector('.slot.selected');
+        if (prev) prev.classList.remove('selected');
+        el.classList.add('selected');
+        selected = { el: el, label: fmtDay(dt) + ' ' + fmtDate(dt) + ' — ' + s };
+        chosen.textContent = selected.label;
+        result.classList.remove('show');
+        panel.classList.add('show');
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+      list.appendChild(el);
+    });
+    col.appendChild(list);
+    daysEl.appendChild(col);
+  });
+
+  function setMode(approve) {
+    approveMode = approve;
+    document.getElementById('modeInstant').classList.toggle('active', !approve);
+    document.getElementById('modeApprove').classList.toggle('active', approve);
+    document.getElementById('modeNote').innerHTML = approve
+      ? '<strong>Approve-First</strong> (Cal.com): the slot is held as "awaiting approval" until Coach Johan confirms it.'
+      : '<strong>Instant Booking</strong> (Google Calendar): the slot is locked in immediately and lands on Coach Johan’s calendar.';
+    bookBtn.querySelector('span').textContent = approve ? 'Request This Slot' : 'Book This Slot';
+  }
+  document.getElementById('modeInstant').addEventListener('click', function () { setMode(false); });
+  document.getElementById('modeApprove').addEventListener('click', function () { setMode(true); });
+
+  bookBtn.addEventListener('click', function () {
+    if (!selected) return;
+    panel.classList.remove('show');
+    selected.el.classList.remove('selected');
+    result.className = 'result show ' + (approveMode ? 'pending' : 'approved');
+    if (approveMode) {
+      selected.el.classList.add('pending');
+      selected.el.textContent = 'Pending';
+      document.getElementById('resultIcon').textContent = '⏳';
+      document.getElementById('resultTitle').textContent = 'Request Sent!';
+      document.getElementById('resultText').textContent =
+        'Your request for ' + selected.label + ' is waiting for Coach Johan’s approval. ' +
+        'You’ll get a confirmation email once he accepts — the slot is held for you until then.';
+    } else {
+      selected.el.classList.add('taken');
+      document.getElementById('resultIcon').textContent = '⚽';
+      document.getElementById('resultTitle').textContent = 'You’re Booked!';
+      document.getElementById('resultText').textContent =
+        selected.label + ' is locked in. A confirmation email is on its way, and the session is already on Coach Johan’s calendar.';
+    }
+    selected = null;
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  document.getElementById('again').addEventListener('click', function () {
+    result.classList.remove('show');
+  });
+})();
+</script>
+
+</body>
+</html>
