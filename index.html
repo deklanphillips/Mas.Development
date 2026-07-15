@@ -304,6 +304,32 @@
       radial-gradient(ellipse at 85% 0%, rgba(29,63,216,.16), transparent 55%),
       var(--black);
   }
+  .cal-frame {
+    background: var(--white);
+    border: 3px solid var(--blue);
+    box-shadow: 0 18px 50px rgba(29,63,216,.25);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 8px;
+  }
+  .cal-frame iframe {
+    display: block;
+    width: 100%;
+    height: 640px;
+    border: 0;
+    background: var(--white);
+  }
+  .alt-book {
+    text-align: center;
+    margin-top: 80px;
+    margin-bottom: 30px;
+  }
+  .alt-book h3 {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+  }
+  .alt-book p { color: var(--grey); margin-top: 8px; font-size: .95rem; }
   .booking-form {
     max-width: 780px; margin: 0 auto;
     background: var(--black-2);
@@ -591,12 +617,12 @@
     </div>
     <div class="steps">
       <div class="step">
-        <h3>Sign Up Below</h3>
-        <p>Fill out the quick <a href="#book" style="color:var(--blue-bright);font-weight:600;">booking form</a> — or DM <a href="https://www.instagram.com/mas.development/" target="_blank" rel="noopener" style="color:var(--blue-bright);font-weight:600;">@mas.development</a> on Instagram if you prefer.</p>
+        <h3>Pick Your Time Slot</h3>
+        <p>Choose any open slot on the <a href="#book" style="color:var(--blue-bright);font-weight:600;">live booking calendar</a> — it's confirmed instantly, with an email confirmation on the spot.</p>
       </div>
       <div class="step">
-        <h3>Lock In Your Sessions</h3>
-        <p>We'll confirm your spot and schedule sessions around you — 1-on-1 by default, or bring teammates for a group session.</p>
+        <h3>It's On the Calendar</h3>
+        <p>Your session lands straight on Coach Johan's schedule and the slot disappears for everyone else — no double-booking, ever. 1-on-1 by default, or bring teammates for a group session.</p>
       </div>
       <div class="step">
         <h3>Train &amp; Level Up</h3>
@@ -610,7 +636,21 @@
   <div class="wrap">
     <div class="sec-head">
       <h2>Book a <span class="blue">Session</span></h2>
-      <p>Complete the form below and we'll contact you within 24 hours to discuss availability and schedule your session. Limited spots available!</p>
+      <p>Pick any open slot below — this is the live calendar, so what you see is what's available. Your session is confirmed instantly and you'll get an email confirmation right away.</p>
+    </div>
+    <!-- Google Calendar Appointment Scheduling begin -->
+    <div class="cal-frame">
+      <iframe
+        src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1zda3BsteaQ8M8776JEeX0qyBLroBqJQXdEz9EAhaRBBQdjlQHEp-g1y8nFUYMHLuPL6Tw8dEN?gv=true"
+        title="Book a training session"
+        loading="lazy"></iframe>
+    </div>
+    <!-- Google Calendar Appointment Scheduling end -->
+    <p class="form-fallback">Calendar not loading? <a href="https://calendar.app.google/r7NsMahDPQCZXMoc7" target="_blank" rel="noopener">Open the booking calendar in a new tab</a>.</p>
+
+    <div class="alt-book">
+      <h3>Prefer to be <span style="color:var(--blue-bright)">contacted first?</span></h3>
+      <p>Send your details and we'll reach out within 24 hours to set everything up.</p>
     </div>
     <div class="booking-form">
       <form id="bookingForm"
@@ -667,7 +707,7 @@
           </select>
         </div>
         <div class="bf-submit">
-          <button class="btn" type="submit" id="bfButton"><span>Book My Session</span></button>
+          <button class="btn" type="submit" id="bfButton"><span>Request a Session</span></button>
         </div>
         <p class="bf-error" id="bfError">Something went wrong sending your request. Please try again, or <a href="https://docs.google.com/forms/d/e/1FAIpQLSdmImvTxEUg5101nGTwP691UJ4nnneRPzVhapApd8zJl94_aA/viewform" target="_blank" rel="noopener">use the booking form here</a>.</p>
       </form>
@@ -722,7 +762,7 @@
       success.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }).catch(function () {
       button.disabled = false;
-      button.querySelector('span').textContent = 'Book My Session';
+      button.querySelector('span').textContent = 'Request a Session';
       error.style.display = 'block';
     });
   });
