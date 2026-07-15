@@ -305,121 +305,15 @@
       var(--black);
   }
   .cal-frame {
-    background: var(--white);
+    background: var(--black-2);
     border: 3px solid var(--blue);
     box-shadow: 0 18px 50px rgba(29,63,216,.25);
     max-width: 900px;
     margin: 0 auto;
     padding: 8px;
   }
-  .cal-frame iframe {
-    display: block;
-    width: 100%;
-    height: 640px;
-    border: 0;
-    background: var(--white);
-  }
-  .alt-book {
-    text-align: center;
-    margin-top: 80px;
-    margin-bottom: 30px;
-  }
-  .alt-book h3 {
-    font-family: var(--display);
-    font-size: 1.3rem;
-    text-transform: uppercase;
-  }
-  .alt-book p { color: var(--grey); margin-top: 8px; font-size: .95rem; }
-  .booking-form {
-    max-width: 780px; margin: 0 auto;
-    background: var(--black-2);
-    border: 1px solid #26262e;
-    border-top: 4px solid var(--blue);
-    box-shadow: 0 18px 50px rgba(29,63,216,.22);
-    padding: 42px 38px;
-  }
-  @media (max-width: 560px) { .booking-form { padding: 30px 20px; } }
-  .bf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-  @media (max-width: 640px) { .bf-grid { grid-template-columns: 1fr; } }
-  .bf-field { margin-bottom: 22px; }
-  .bf-grid .bf-field { margin-bottom: 0; }
-  .bf-grid { margin-bottom: 22px; }
-  .bf-field > label, .bf-field > .bf-label {
-    display: block;
-    font-weight: 600; text-transform: uppercase;
-    letter-spacing: .12em; font-size: .78rem;
-    margin-bottom: 9px;
-  }
-  .bf-field .opt { color: var(--grey); font-weight: 400; letter-spacing: .06em; }
-  .bf-field input[type=text],
-  .bf-field input[type=tel],
-  .bf-field input[type=number],
-  .bf-field select {
-    width: 100%;
-    background: var(--black);
-    border: 1px solid #2c2c36;
-    color: var(--white);
-    font-family: var(--body);
-    font-size: 1rem;
-    padding: 13px 14px;
-    transition: .2s;
-  }
-  .bf-field input:focus, .bf-field select:focus {
-    outline: none;
-    border-color: var(--blue-bright);
-    box-shadow: 0 0 0 3px rgba(46,85,255,.25);
-  }
-  .bf-field select {
-    appearance: none; -webkit-appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' fill='none'><path d='M1 1l6 6 6-6' stroke='%232e55ff' stroke-width='2'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 40px;
-    cursor: pointer;
-  }
-  .pills { display: flex; flex-wrap: wrap; gap: 10px; }
-  .pill { position: relative; }
-  .pill input {
-    position: absolute; inset: 0; opacity: 0; cursor: pointer;
-  }
-  .pill span {
-    display: inline-block;
-    padding: 10px 16px;
-    border: 1px solid #2c2c36;
-    background: var(--black);
-    font-size: .9rem; font-weight: 500;
-    letter-spacing: .04em;
-    cursor: pointer;
-    transition: .15s;
-    user-select: none;
-  }
-  .pill input:checked + span {
-    background: var(--blue);
-    border-color: var(--blue-bright);
-    box-shadow: 0 0 14px rgba(46,85,255,.4);
-  }
-  .pill input:focus-visible + span { outline: 2px solid var(--blue-bright); outline-offset: 2px; }
-  .bf-submit { margin-top: 30px; }
-  .bf-submit .btn { width: 100%; font-size: 1rem; padding: 16px; }
-  .bf-submit .btn:disabled { opacity: .6; cursor: wait; box-shadow: none; }
-  .bf-error {
-    display: none;
-    margin-top: 16px; text-align: center;
-    color: #ff8a8a; font-size: .95rem;
-  }
-  .bf-error a { color: var(--blue-bright); font-weight: 600; text-decoration: underline; }
-  .bf-success {
-    display: none;
-    text-align: center;
-    padding: 40px 10px 20px;
-  }
-  .bf-success .big { font-size: 3rem; }
-  .bf-success h3 {
-    font-family: var(--display);
-    font-size: 1.6rem; text-transform: uppercase;
-    margin: 14px 0 10px;
-  }
-  .bf-success p { color: var(--grey); max-width: 460px; margin: 0 auto; }
+  .cal-frame { overflow: hidden; }
+  #cal-embed { width: 100%; min-height: 620px; overflow: auto; margin-bottom: -100px; }
   .form-fallback {
     text-align: center; margin-top: 18px; color: var(--grey); font-size: .95rem;
   }
@@ -638,86 +532,13 @@
       <h2>Book a <span class="blue">Session</span></h2>
       <p>Pick any open slot below — this is the live calendar, so what you see is what's available. Your session is confirmed instantly and you'll get an email confirmation right away.</p>
     </div>
-    <!-- Google Calendar Appointment Scheduling begin -->
+    <!-- Cal.com inline embed begin -->
     <div class="cal-frame">
-      <iframe
-        src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1zda3BsteaQ8M8776JEeX0qyBLroBqJQXdEz9EAhaRBBQdjlQHEp-g1y8nFUYMHLuPL6Tw8dEN?gv=true"
-        title="Book a training session"
-        loading="lazy"></iframe>
+      <div id="cal-embed"></div>
     </div>
-    <!-- Google Calendar Appointment Scheduling end -->
-    <p class="form-fallback">Calendar not loading? <a href="https://calendar.app.google/r7NsMahDPQCZXMoc7" target="_blank" rel="noopener">Open the booking calendar in a new tab</a>.</p>
+    <!-- Cal.com inline embed end -->
+    <p class="form-fallback">Calendar not loading? <a href="https://cal.com/deklan-phillips-xmzgox/training" target="_blank" rel="noopener">Open the booking calendar in a new tab</a>.</p>
 
-    <div class="alt-book">
-      <h3>Prefer to be <span style="color:var(--blue-bright)">contacted first?</span></h3>
-      <p>Send your details and we'll reach out within 24 hours to set everything up.</p>
-    </div>
-    <div class="booking-form">
-      <form id="bookingForm"
-            action="https://docs.google.com/forms/d/e/1FAIpQLSdmImvTxEUg5101nGTwP691UJ4nnneRPzVhapApd8zJl94_aA/formResponse"
-            method="POST" target="_blank">
-        <div class="bf-grid">
-          <div class="bf-field">
-            <label for="bfParent">Parent/Guardian Name</label>
-            <input type="text" id="bfParent" name="entry.441226065" autocomplete="name" required>
-          </div>
-          <div class="bf-field">
-            <label for="bfPlayer">Player Name</label>
-            <input type="text" id="bfPlayer" name="entry.548683595" required>
-          </div>
-          <div class="bf-field">
-            <label for="bfAge">Player Age</label>
-            <input type="number" id="bfAge" name="entry.359763901" min="3" max="30" inputmode="numeric" required>
-          </div>
-          <div class="bf-field">
-            <label for="bfPhone">Parent/Guardian Phone Number</label>
-            <input type="tel" id="bfPhone" name="entry.1966033450" autocomplete="tel" required>
-          </div>
-        </div>
-        <div class="bf-field">
-          <span class="bf-label">Preferred Day(s) <span class="opt">— pick any</span></span>
-          <div class="pills">
-            <label class="pill"><input type="checkbox" name="entry.936616796" value="Monday"><span>Monday</span></label>
-            <label class="pill"><input type="checkbox" name="entry.936616796" value="Tuesday"><span>Tuesday</span></label>
-            <label class="pill"><input type="checkbox" name="entry.936616796" value="Wednesday"><span>Wednesday</span></label>
-            <label class="pill"><input type="checkbox" name="entry.936616796" value="Thursday"><span>Thursday</span></label>
-            <label class="pill"><input type="checkbox" name="entry.936616796" value="Friday"><span>Friday</span></label>
-          </div>
-        </div>
-        <div class="bf-field">
-          <span class="bf-label">Preferred Time Slot(s) <span class="opt">— pick any</span></span>
-          <div class="pills">
-            <label class="pill"><input type="checkbox" name="entry.1373768706" value="7:00-8:00AM"><span>7:00–8:00 AM</span></label>
-            <label class="pill"><input type="checkbox" name="entry.1373768706" value="8:10-9:10AM"><span>8:10–9:10 AM</span></label>
-            <label class="pill"><input type="checkbox" name="entry.1373768706" value="9:20-10:20AM"><span>9:20–10:20 AM</span></label>
-            <label class="pill"><input type="checkbox" name="entry.1373768706" value="10:30-11:30AM"><span>10:30–11:30 AM</span></label>
-            <label class="pill"><input type="checkbox" name="entry.1373768706" value="11:40AM-12:40PM"><span>11:40 AM–12:40 PM</span></label>
-            <label class="pill"><input type="checkbox" name="entry.1373768706" value="Afternoon/Evenings"><span>Afternoon / Evenings</span></label>
-          </div>
-        </div>
-        <div class="bf-field">
-          <label for="bfPosition">Playing Position <span class="opt">(optional)</span></label>
-          <select id="bfPosition" name="entry.1099981578">
-            <option value="" selected>Select a position…</option>
-            <option value="Goalkeeper">Goalkeeper</option>
-            <option value="Defender">Defender</option>
-            <option value="Midfielder">Midfielder</option>
-            <option value="Forward">Forward</option>
-            <option value="Multiple Positions">Multiple Positions</option>
-          </select>
-        </div>
-        <div class="bf-submit">
-          <button class="btn" type="submit" id="bfButton"><span>Request a Session</span></button>
-        </div>
-        <p class="bf-error" id="bfError">Something went wrong sending your request. Please try again, or <a href="https://docs.google.com/forms/d/e/1FAIpQLSdmImvTxEUg5101nGTwP691UJ4nnneRPzVhapApd8zJl94_aA/viewform" target="_blank" rel="noopener">use the booking form here</a>.</p>
-      </form>
-      <div class="bf-success" id="bfSuccess">
-        <div class="big">⚽</div>
-        <h3>You're on the list!</h3>
-        <p>Thanks for booking with MAS Soccer Development. We'll contact you within 24 hours to confirm availability and schedule your session.</p>
-      </div>
-    </div>
-    <p class="form-fallback">Prefer Google Forms? <a href="https://docs.google.com/forms/d/e/1FAIpQLSdmImvTxEUg5101nGTwP691UJ4nnneRPzVhapApd8zJl94_aA/viewform" target="_blank" rel="noopener">Open the booking form in a new tab</a>.</p>
   </div>
 </section>
 
@@ -738,35 +559,43 @@
 </footer>
 
 <script>
-(function () {
-  var form = document.getElementById('bookingForm');
-  var button = document.getElementById('bfButton');
-  var success = document.getElementById('bfSuccess');
-  var error = document.getElementById('bfError');
+/* Cal.com official embed loader */
+(function (C, A, L) {
+  let p = function (a, ar) { a.q.push(ar); };
+  let d = C.document;
+  C.Cal = C.Cal || function () {
+    let cal = C.Cal; let ar = arguments;
+    if (!cal.loaded) {
+      cal.ns = {}; cal.q = cal.q || [];
+      d.head.appendChild(d.createElement("script")).src = A;
+      cal.loaded = true;
+    }
+    if (ar[0] === L) {
+      const api = function () { p(api, arguments); };
+      const namespace = ar[1]; api.q = api.q || [];
+      if (typeof namespace === "string") {
+        cal.ns[namespace] = cal.ns[namespace] || api;
+        p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]);
+      } else p(cal, ar);
+      return;
+    }
+    p(cal, ar);
+  };
+})(window, "https://app.cal.com/embed/embed.js", "init");
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    error.style.display = 'none';
-    button.disabled = true;
-    button.querySelector('span').textContent = 'Sending…';
+Cal("init", { origin: "https://cal.com" });
+Cal("inline", {
+  elementOrSelector: "#cal-embed",
+  calLink: "deklan-phillips-xmzgox/training",
+  config: { theme: "dark" }
+});
+Cal("ui", {
+  theme: "dark",
+  cssVarsPerTheme: { dark: { "cal-brand": "#2e55ff" } },
+  hideEventTypeDetails: true,
+  layout: "month_view"
+});
 
-    // Google Forms accepts cross-origin POSTs but not CORS reads,
-    // so the response is opaque — resolve means it was delivered.
-    fetch(form.action, {
-      method: 'POST',
-      mode: 'no-cors',
-      body: new FormData(form)
-    }).then(function () {
-      form.style.display = 'none';
-      success.style.display = 'block';
-      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }).catch(function () {
-      button.disabled = false;
-      button.querySelector('span').textContent = 'Request a Session';
-      error.style.display = 'block';
-    });
-  });
-})();
 </script>
 
 </body>
